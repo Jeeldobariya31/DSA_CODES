@@ -191,6 +191,37 @@ void swapKth(int k) {
     if (k == 1) head = y;
     if (k == n) head = x;
 }
+//Short Linked list
+void shortlist() {
+    if (head == NULL) {
+        printf("List is empty.\n");
+        return;
+    }
+
+    int swapped;
+    struct Node *ptr1;
+    struct Node *lptr = NULL;
+
+    do {
+        swapped = 0;
+        ptr1 = head;
+
+        while (ptr1->next != lptr) {
+            if (ptr1->data > ptr1->next->data) {
+                // Swap data
+                int temp = ptr1->data;
+                ptr1->data = ptr1->next->data;
+                ptr1->next->data = temp;
+                swapped = 1;
+            }
+            ptr1 = ptr1->next;
+        }
+        lptr = ptr1;
+    } while (swapped);
+
+    printf("=> List Sorted Successfully.\n");
+}
+
 
 // Menu-driven program
 void menu() {
@@ -209,6 +240,7 @@ void menu() {
         printf("10. Compare with Copied List\n");
         printf("11. Remove Duplicates (sorted list)\n");
         printf("12. Swap Kth Node from Start and End\n");
+        printf("13. Reverse List\n");
         printf("0. Exit\n");
         printf("Enter your choice: ");
         scanf("%d", &choice);
@@ -268,6 +300,9 @@ void menu() {
                 scanf("%d", &k);
                 swapKth(k);
                 break;
+            case 13:
+               shortlist();
+                break;    
             case 0:
                 printf("Exiting...\n");
                 break;
