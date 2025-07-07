@@ -1,16 +1,18 @@
-// Circular LInked LIst
 #include <stdio.h>
 #include <stdlib.h>
-//basics 
+// Circular Linked List Node
 struct Node {
     int data;
     struct Node* link;
 };
-//temp pointer
+
+// Head and Tail pointers
+
 struct Node* FIRST = NULL;
 struct Node* LAST = NULL;
 
 // Insert at front
+
 void insertAtFront() {
     struct Node* NEW = (struct Node*)malloc(sizeof(struct Node));
     printf("Enter data: ");
@@ -26,8 +28,7 @@ void insertAtFront() {
         FIRST = NEW;
     }
 }
-
-// Insert at last
+// Insert at end
 void insertAtLast() {
     struct Node* NEW = (struct Node*)malloc(sizeof(struct Node));
     printf("Enter data: ");
@@ -43,7 +44,6 @@ void insertAtLast() {
         LAST = NEW;
     }
 }
-
 // Insert in sorted order
 void insertSorted() {
     struct Node* NEW = (struct Node*)malloc(sizeof(struct Node));
@@ -76,7 +76,43 @@ void insertSorted() {
         LAST = NEW;
     }
 }
+// Insert at specific position
 
+void insertAtPosition() {
+    int pos, val, count = 1;
+    printf("Enter position to insert at: ");
+    scanf("%d", &pos);
+    printf("Enter value: ");
+    scanf("%d", &val);
+
+    struct Node* NEW = (struct Node*)malloc(sizeof(struct Node));
+    NEW->data = val;
+    NEW->link = NULL;
+
+    if (FIRST == NULL || pos <= 1) {
+        NEW->link = (FIRST == NULL) ? NEW : FIRST;
+        if (FIRST == NULL) {
+            FIRST = LAST = NEW;
+        } else {
+            LAST->link = NEW;
+            FIRST = NEW;
+        }
+        return;
+    }
+
+    struct Node* temp = FIRST;
+    while (count < pos - 1 && temp->link != FIRST) {
+        temp = temp->link;
+        count++;
+    }
+
+    NEW->link = temp->link;
+    temp->link = NEW;
+
+    if (temp == LAST) {
+        LAST = NEW;
+    }
+}
 // Delete node by value
 void deleteByValue() {
     if (FIRST == NULL) {
@@ -120,6 +156,56 @@ void deleteByValue() {
     printf("Node with value %d deleted.\n", x);
 }
 
+// Delete node at specific position
+void deleteAtPosition() {
+    if (FIRST == NULL) {
+        printf("List is empty.\n");
+        return;
+    }
+
+    int pos, count = 1;
+    printf("Enter position to delete: ");
+    scanf("%d", &pos);
+
+    if (pos == 1) {
+        struct Node* temp = FIRST;
+
+        if (FIRST == LAST) {
+            FIRST = LAST = NULL;
+        } else {
+            FIRST = FIRST->link;
+            LAST->link = FIRST;
+        }
+
+        printf("Deleted node at position 1 with value %d.\n", temp->data);
+        free(temp);
+        return;
+    }
+
+    struct Node* current = FIRST;
+    struct Node* previous = NULL;
+
+    while (count < pos && current->link != FIRST) {
+        previous = current;
+        current = current->link;
+        count++;
+    }
+
+    if (count != pos) {
+        printf("Invalid position!\n");
+        return;
+    }
+
+    previous->link = current->link;
+
+    if (current == LAST) {
+        LAST = previous;
+    }
+
+    printf("Deleted node at position %d with value %d.\n", pos, current->data);
+    free(current);
+}
+
 // Display circular linked list
 void display() {
     if (FIRST == NULL) {
@@ -136,6 +222,7 @@ void display() {
     printf("(HEAD)\n");
 }
 
+// Main function
 int main() {
     int choice;
     do {
@@ -145,6 +232,8 @@ int main() {
         printf("3. Insert in Sorted Order\n");
         printf("4. Display List\n");
         printf("5. Delete Node by Value\n");
+        printf("6. Insert at Specific Position\n");
+        printf("7. Delete Node at Specific Position\n");
         printf("0. Exit\n");
         printf("Enter your choice: ");
         scanf("%d", &choice);
@@ -155,9 +244,12 @@ int main() {
             case 3: insertSorted(); break;
             case 4: display(); break;
             case 5: deleteByValue(); break;
+            case 6: insertAtPosition(); break;
+            case 7: deleteAtPosition(); break;
             case 0: printf("Exiting program...\n"); break;
             default: printf("Invalid choice!\n");
         }
     } while (choice != 0);
+
     return 0;
 }

@@ -17,7 +17,7 @@ scanf("%d" , &newNode -> data);
 newNode->link = NULL;
 
 printf("\nPrinting detailes :*********");
-printf("info:\n"newNode->data);
-printf("link:\n"newNode->link);
+printf("info:%d \n"newNode->data);
+printf("link:%d \n"newNode->link);
 
 }

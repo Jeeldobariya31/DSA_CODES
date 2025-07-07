@@ -33,10 +33,12 @@ void dequeue() {
 
     struct Node* temp = front;
     printf("Dequeued element: %d\n", temp->data);
-    front = front->link;
-    if (front == NULL) {
-        rear = NULL; // If queue is now empty
+    struct Node * Save=rear;
+    while(Save->link!=front){
+        save=save->link;
     }
+    front = Save;
+    
     free(temp);
 }
 

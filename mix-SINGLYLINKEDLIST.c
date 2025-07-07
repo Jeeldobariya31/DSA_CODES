@@ -240,7 +240,7 @@ void menu() {
         printf("10. Compare with Copied List\n");
         printf("11. Remove Duplicates (sorted list)\n");
         printf("12. Swap Kth Node from Start and End\n");
-        printf("13. Reverse List\n");
+        printf("13. Short List\n");
         printf("0. Exit\n");
         printf("Enter your choice: ");
         scanf("%d", &choice);

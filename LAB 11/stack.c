@@ -35,6 +35,10 @@ void pop(){
     free(temp);
 }
 void  top(){
+        if (Top == NULL) {
+        printf("Stack is empty.\n");
+        return;
+    }
         int tops;
         tops=Top->data;
        printf("Your top element is : %d\n",tops);
