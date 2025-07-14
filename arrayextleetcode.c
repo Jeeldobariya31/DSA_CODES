@@ -1,13 +1,20 @@
 #include<stdio.h>
 
 int main(){
+    int size;
+    printf("Enter Size : ");
+    scanf("%d",&size);
     int i = 0 , index = 0 , product = 1 , flag =1;
-    int arr = {1,2,3,4};
-    int result[4];
+    int arr[size] ;
+    for(int j=0;j<size;j++){
+        printf("Enter %d th element :",(j+1));
+        scanf("%d",arr[i]);
+    }
+    int result[size];
 
     while (flag)
     {
-        if (i < 4)
+        if (i < size)
         {
             if (i != index)
             {
@@ -26,13 +33,13 @@ int main(){
             result[index]= product;
             index++;
         }
-        if (index >= 4)
+        if (index >= size)
         {
             flag = 0;
         }
     }
 
-    for (int i = 0; i < 4; i++)
+    for (int i = 0; i < size; i++)
     {
         printf("%d" , result[i]);
     }
