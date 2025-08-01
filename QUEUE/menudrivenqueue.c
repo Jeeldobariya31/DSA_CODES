@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define SIZE 20
+#define SIZE 4
 
 int queue[SIZE];
 int front = -1, rear = -1;
@@ -17,16 +17,24 @@ void enqueue(int val) {
 }
 
 int dequeue() {
-    if (front == -1 || front > rear) {
+    if (front == -1 ) {
         printf("Queue underflow...\n");
         return -1;
     } else {
-        return queue[front++];
+        int y=queue[front];
+        if(front==rear){
+            front=-1;
+            rear=-1;
+        }
+        else{
+            front++;
+        }
+        return y;
     }
 }
 
 int peek() {
-    if (front == -1 || front > rear) {
+    if (front == -1 ) {
         printf("Queue is empty...\n");
         return -1;
     } else {
@@ -35,7 +43,7 @@ int peek() {
 }
 
 void display() {
-    if (front == -1 || front > rear) {
+    if (front == -1) {
         printf("Queue is empty...\n");
     } else {
         printf("Queue is: ");
