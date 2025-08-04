@@ -9,7 +9,7 @@ void push(char c){
 }
 
 char pop(){
-    return stack[top--];
+return stack[top--];
 }
 
 int stack_precedence(char c){
@@ -49,7 +49,6 @@ int r(char c){
         return 1;
 }
 
-
 void revpol(char infix[]){
     int i = 0;
     char postfix[100];
@@ -72,7 +71,6 @@ void revpol(char infix[]){
                 return;
             }
         }
-
         if(stack_precedence(stack[top]) != input_precedence(next)){
             push(next);
         }
