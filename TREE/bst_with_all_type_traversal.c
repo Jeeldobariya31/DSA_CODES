@@ -1,28 +1,40 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-//***************** Construct Node Section ..***********************
+// ***************** Construct Node Section ***********************
 struct Node {
     int data;
     struct Node *left, *right;
 };
 
+// Create new node
 struct Node* createNode(int value) {
     struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
     newNode->data = value;
     newNode->left = newNode->right = NULL;
     return newNode;
 }
-//************************* Construct Tree Section..*************************
+
+// ***************** Insert Section *****************
 struct Node* insert(struct Node* root, int value) {
     if (root == NULL) return createNode(value);
     if (value < root->data)
         root->left = insert(root->left, value);
-    else
+    else if (value > root->data)
         root->right = insert(root->right, value);
+    else
+        printf("Duplicate value %d not inserted.\n", value);
     return root;
 }
-//************************* Delate Node From  Tree Section..*************************
+
+// ***************** Find Minimum Node *****************
+struct Node* findMin(struct Node* root) {
+    while (root && root->left != NULL)
+        root = root->left;
+    return root;
+}
+
+// ***************** Delete Section *****************
 struct Node* deleteNode(struct Node* root, int key) {
     if (root == NULL) return root;
 
@@ -31,12 +43,12 @@ struct Node* deleteNode(struct Node* root, int key) {
     else if (key > root->data)
         root->right = deleteNode(root->right, key);
     else {
-        //  No child
+        // Case 1: No child
         if (root->left == NULL && root->right == NULL) {
             free(root);
             return NULL;
         }
-        //  One child
+        // Case 2: One child
         else if (root->left == NULL) {
             struct Node* temp = root->right;
             free(root);
@@ -47,61 +59,72 @@ struct Node* deleteNode(struct Node* root, int key) {
             free(root);
             return temp;
         }
-        // Two children
+        // Case 3: Two children
         struct Node* temp = findMin(root->right);
-        root->data = temp->data; 
-        root->right = deleteNode(root->right, temp->data); 
+        root->data = temp->data;
+        root->right = deleteNode(root->right, temp->data);
+    }
     return root;
 }
 
-//************************* Traversal Section ....********************************
-//preorder
+// ***************** Search Node *****************
+struct Node* search(struct Node* root, int key) {
+    if (root == NULL || root->data == key)
+        return root;
+    if (key < root->data)
+        return search(root->left, key);
+    else
+        return search(root->right, key);
+}
+
+// ***************** Traversal Section *****************
 void preorder(struct Node* root) {
     if (root == NULL) return;
     printf("%d ", root->data);
     preorder(root->left);
     preorder(root->right);
 }
-//inorder
+
 void inorder(struct Node* root) {
     if (root == NULL) return;
     inorder(root->left);
     printf("%d ", root->data);
     inorder(root->right);
 }
-//postorder
+
 void postorder(struct Node* root) {
     if (root == NULL) return;
     postorder(root->left);
     postorder(root->right);
     printf("%d ", root->data);
 }
-//************************** Menu For Handel Operation...... *************
+
+// ***************** Main Menu *****************
 int main() {
     struct Node* root = NULL;
-    int data, choice;
-    //root node creation 
-     printf("Enter root node value: ");
-     scanf("%d", & data);
-     root = createNode(data);
-     //add more nodes 
+    int data, choice, ch, key;
+    
+    printf("Enter root node value: ");
+    scanf("%d", &data);
+    root = createNode(data);
+
     do {
         printf("Enter data to insert: ");
         scanf("%d", &data);
-         insert(root, data);
+        root = insert(root, data);
 
         printf("Do you want to insert more nodes? (1 for Yes / 0 for No): ");
         scanf("%d", &choice);
     } while (choice);
-  // traversal and delation options
-    int ch;
+
     do {
-        printf("\n=> Select Choice For Traversal:\n");
-        printf("=> Enter (1) For Inorder Traversal\n");
-        printf("=> Enter (2) For Postorder Traversal\n");
-        printf("=> Enter (3) For Preorder Traversal\n");
-        printf("=> Enter (4) For Delate Node\n");
-        printf("=> Enter (0) For Exit\n");
+        printf("\n===== BST Menu =====\n");
+        printf("1. Inorder Traversal\n");
+        printf("2. Postorder Traversal\n");
+        printf("3. Preorder Traversal\n");
+        printf("4. Delete Node\n");
+        printf("5. Search Node\n");
+        printf("0. Exit\n");
         printf("Enter your choice: ");
         scanf("%d", &ch);
 
@@ -118,11 +141,19 @@ int main() {
             printf("\nPreorder Traversal: ");
             preorder(root);
             break;
-        case 4: int key;
-                printf("Enter Data To delate : ");
-                scanf("%d",&key)
-                root =deleteNode(root, key);
-                break;
+        case 4:
+            printf("Enter data to delete: ");
+            scanf("%d", &key);
+            root = deleteNode(root, key);
+            break;
+        case 5:
+            printf("Enter value to search: ");
+            scanf("%d", &key);
+            if (search(root, key) != NULL)
+                printf("Node %d found in the tree.\n", key);
+            else
+                printf("Node %d not found in the tree.\n", key);
+            break;
         case 0:
             printf("Exiting...\n");
             break;
