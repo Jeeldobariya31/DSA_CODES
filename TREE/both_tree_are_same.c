@@ -39,7 +39,7 @@ int isSame(struct Node* root1, struct Node* root2) {
     return (root1->data == root2->data) &&
            isSame(root1->left, root2->left) &&
            isSame(root1->right, root2->right);
-}
+} 
 
 int main() {
     struct Node* root1 = NULL;
