@@ -25,7 +25,7 @@ int stack_precedence(char c){
         return 8; 
 
 }
-
+   
 int input_precedence(char c){
     if(c == '+' || c == '-')
         return 2;

@@ -6,7 +6,7 @@
 #define SIZE 100
 
 int top=-1;
-int stack[SIZE];
+char stack[SIZE];
 void push(char c) {
     if (top >= SIZE - 1) {
         printf("Stack overflow\n");

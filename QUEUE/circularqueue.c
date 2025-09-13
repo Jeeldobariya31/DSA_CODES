@@ -58,7 +58,7 @@ void display() {
     while (1) {
         printf("%c", queue[i]);
         if (i == rear){
-            break;
+            break;                      
         }
         printf(", ");
         i = (i + 1) % SIZE;
